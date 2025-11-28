@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Добавить товар</h2>
-<form method="post" class="form">
-  <label>Наименование</label><input name="name" value="{{ request.form.name }}">
-  <label>Артикул</label><input name="sku" value="{{ request.form.sku }}">
-  <label>Категория</label><input name="category" value="{{ request.form.category }}">
-  <label>Единица измерения</label><input name="unit" value="{{ request.form.unit }}">
-  <label>Поставщик</label>
-  <select name="supplier">
-    {% for val, name in form.supplier.choices %}
-      <option value="{{ val }}">{{ name }}</option>
-    {% endfor %}
-  </select>
-  <label>Характеристики</label><textarea name="description">{{ request.form.description }}</textarea>
-  <button type="submit">Добавить</button>
+<form method="post">
+    <label>Наименование</label><br>
+    <input name="name" value="{{ form.name.data or '' }}"><br>
+    <label>Артикул</label><br>
+    <input name="sku" value="{{ form.sku.data or '' }}"><br>
+    <label>Категория</label><br>
+    <input name="category" value="{{ form.category.data or '' }}"><br>
+    <label>Ед. измерения</label><br>
+    <input name="unit" value="{{ form.unit.data or '' }}"><br>
+    <label>Поставщик</label><br>
+    <select name="supplier">
+      {% for val, label in form.supplier.choices %}
+        <option value="{{ val }}">{{ label }}</option>
+      {% endfor %}
+    </select><br>
+    <label>Характеристики</label><br>
+    <textarea name="description">{{ form.description.data or '' }}</textarea><br>
+    <button type="submit">Добавить</button>
 </form>
 {% endblock %}

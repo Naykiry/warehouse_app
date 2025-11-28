@@ -1,39 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Список товаров (найдено {{ total }})</h2>
-<form method="get" class="searchform">
-  <input type="text" name="q" placeholder="по названию или артикулу">
-  <input type="text" name="category" placeholder="категория">
-  <select name="supplier">
-    <option value="">Все поставщики</option>
-    {% for s in suppliers %}
-      <option value="{{ s.id }}">{{ s.name }}</option>
-    {% endfor %}
-  </select>
-  <button>Поиск</button>
+<h2>Товары ({{ total }})</h2>
+
+<form method="get" action="{{ url_for('product_list') }}">
+    Поиск: <input name="q" value="{{ request.args.get('q','') }}">
+    Категория: <input name="category" value="{{ request.args.get('category','') }}">
+    Поставщик:
+    <select name="supplier">
+        <option value="">---</option>
+        {% for s in suppliers %}
+            <option value="{{ s.id }}" {% if request.args.get('supplier')==s.id|string %}selected{% endif %}>{{ s.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Фильтр</button>
 </form>
 
 <table class="table">
-  <thead><tr><th>Наименование</th><th>Артикул</th><th>Категория</th><th>Остаток</th><th>Мин. запас</th><th>Поставщик</th></tr></thead>
-  <tbody>
+    <thead><tr><th>id</th><th>Наименование</th><th>SKU</th><th>Категория</th><th>Остаток</th><th>Мин</th><th>Поставщик</th></tr></thead>
+    <tbody>
     {% for p in products %}
-      <tr {% if p.stock_quantity <= p.min_stock and p.min_stock>0 %}class="low"{% endif %}>
-        <td>{{ p.name }}</td>
-        <td>{{ p.sku }}</td>
-        <td>{{ p.category }}</td>
-        <td>{{ p.stock_quantity }} {{ p.unit }}</td>
-        <td>{{ p.min_stock }}</td>
-        <td>{% if p.supplier %}{{ p.supplier.name }}{% endif %}</td>
-      </tr>
+        <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.sku }}</td>
+            <td>{{ p.category }}</td>
+            <td>{{ p.stock_quantity }}</td>
+            <td>{{ p.min_stock }}</td>
+            <td>{% if p.supplier %}{{ p.supplier.name }}{% endif %}</td>
+        </tr>
     {% endfor %}
-  </tbody>
+    </tbody>
 </table>
 
-{% if total > per_page %}
-  <div class="pager">
-    {% if page>1 %}<a href="?page={{ page-1 }}">← Назад</a>{% endif %}
-    <span>Стр. {{ page }}</span>
-    {% if total > page*per_page %}<a href="?page={{ page+1 }}">Вперед →</a>{% endif %}
-  </div>
-{% endif %}
 {% endblock %}

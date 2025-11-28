@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Отладочный просмотр внутренней БД</h2>
-<h3>Suppliers</h3>
-<pre>{{ db.suppliers | pprint }}</pre>
+<h2>Содержимое БД (отладка)</h2>
+
 <h3>Products</h3>
-<pre>{{ db.products | pprint }}</pre>
+<ul>
+{% for p in products %}
+  <li>{{ p.id }} — {{ p.name }} — {{ p.sku }} — {{ p.category }}</li>
+{% endfor %}
+</ul>
+
+<h3>Suppliers</h3>
+<ul>
+{% for s in suppliers %}
+  <li>{{ s.id }} — {{ s.name }}</li>
+{% endfor %}
+</ul>
+
 <h3>Stocks</h3>
-<pre>{{ db.stocks | pprint }}</pre>
+<ul>
+{% for st in stocks %}
+  <li>{{ st.product_id }} — {{ st.quantity }} (min {{ st.min_stock }})</li>
+{% endfor %}
+</ul>
+
 <h3>Operations</h3>
-<pre>{{ db.operations | pprint }}</pre>
+<ul>
+{% for o in operations %}
+  <li>{{ o.id }} — prod:{{ o.product_id }} — {{ o.type }} — {{ o.quantity }} — {{ o.date }}</li>
+{% endfor %}
+</ul>
+
 {% endblock %}

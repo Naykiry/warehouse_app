@@ -1,38 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Складец</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <title>Складец — Складская система</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <header class="topbar">
-    <div class="container">
-      <h1>Складец</h1>
-      <nav class="mainnav">
-        <a href="{{ url_for('index') }}">Главная</a>
-        <a href="{{ url_for('product_list') }}">Товары</a>
-        <a href="{{ url_for('add_product_view') }}">Добавить товар</a>
-        <a href="{{ url_for('operations_list') }}">Операции</a>
-        <a href="{{ url_for('add_operation_view') }}">Добавить операцию</a>
-        <a href="{{ url_for('stock_low') }}">Низкий остаток</a>
-        <a href="{{ url_for('suppliers_list') }}">Поставщики</a>
-      </nav>
-    </div>
-  </header>
-  <main class="container">
+<header>
+    <h1>Складец</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Главная</a> |
+        <a href="{{ url_for('product_list') }}">Товары</a> |
+        <a href="{{ url_for('add_product_view') }}">Добавить товар</a> |
+        <a href="{{ url_for('suppliers_list_view') }}">Поставщики</a> |
+        <a href="{{ url_for('operations_list_view') }}">Операции</a> |
+        <a href="{{ url_for('deliveries_by_date_view') }}">Поставки по дате</a> |
+        <a href="{{ url_for('stock_low_view') }}">Малый остаток</a> |
+        <a href="{{ url_for('view_db') }}">(DB)</a>
+    </nav>
+    <hr>
+</header>
+<main>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <ul class="flashes">
-          {% for cat, msg in messages %}
-            <li class="flash {{ cat }}">{{ msg }}</li>
-          {% endfor %}
+        {% for category, msg in messages %}
+          <li class="flash {{ category }}">{{ msg }}</li>
+        {% endfor %}
         </ul>
       {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
-  </main>
-  <footer class="container">© Складец</footer>
+</main>
 </body>
 </html>

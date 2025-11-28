@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Добавить поставщика</h2>
-<form method="post" class="form">
-  <label>Название</label><input name="name" value="{{ request.form.name }}">
-  <label>Контакты</label><textarea name="contact">{{ request.form.contact }}</textarea>
-  <button type="submit">Добавить</button>
+<form method="post">
+    <label>Название</label><br>
+    <input name="name" value="{{ form.name.data or '' }}"><br>
+    <label>Контакты</label><br>
+    <textarea name="contact">{{ form.contact.data or '' }}</textarea><br>
+    <button type="submit">Добавить</button>
 </form>
 {% endblock %}

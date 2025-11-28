@@ -1,2 +1,4 @@
-Flask>=1.1.2
-WTForms>=2.3.3
+Flask
+Flask-SQLAlchemy
+WTForms
+SQLAlchemy == 2.0.41
