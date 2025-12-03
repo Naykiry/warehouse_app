@@ -4,3 +4,5 @@ WTForms
 SQLAlchemy == 2.0.41
 redis
 bandit
+pytest
+flake8
