@@ -2,13 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from config import Config
 from models import db, Product, Supplier, Stock, Operation
 from datetime import datetime
+from sqlalchemy import func
 import redis
 
 redis_client = redis.Redis(host='redis', port=6379, db=0, decode_responses=True)
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
 # Do not initialize the database at import time so tests can configure it.
 # The DB will be initialized when running the app directly or by tests via
 # `models.db.init_app(test_app)`.
@@ -133,14 +133,14 @@ def operations():
     if df:
         try:
             d1 = datetime.strptime(df, "%Y-%m-%d")
-            query = query.filter(Operation.date >= d1)
+            query = query.filter(func.date(Operation.date) >= d1.date())
         except:
             pass
 
     if dt:
         try:
             d2 = datetime.strptime(dt, "%Y-%m-%d")
-            query = query.filter(Operation.date <= d2)
+            query = query.filter(func.date(Operation.date) <= d2.date())
         except:
             pass
 
@@ -194,4 +194,9 @@ def stock_low():
 
 
 if __name__ == "__main__":
+    # Initialize DB when running the app directly
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+
     app.run(host='0.0.0.0', port=5000, debug=True)
