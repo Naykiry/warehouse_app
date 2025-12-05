@@ -3,7 +3,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class Supplier(db.Model):
+class Supplier(db.Model): # type: ignore
     __tablename__ = "suppliers"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -13,7 +13,7 @@ class Supplier(db.Model):
     products = db.relationship("Product", backref="supplier")
 
 
-class Product(db.Model):
+class Product(db.Model): # type: ignore
     __tablename__ = "products"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,7 +29,7 @@ class Product(db.Model):
     operations = db.relationship("Operation", backref="product")
 
 
-class Stock(db.Model):
+class Stock(db.Model): # type: ignore
     __tablename__ = "stocks"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -39,7 +39,7 @@ class Stock(db.Model):
     warehouse = db.Column(db.String(100), default="Основной")
 
 
-class Operation(db.Model):
+class Operation(db.Model): # type: ignore
     __tablename__ = "operations"
 
     id = db.Column(db.Integer, primary_key=True)
